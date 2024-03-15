@@ -68,7 +68,7 @@ def extract_content_and_resources(articles_data):
         for related_link in all_related_links:
             store_related_links[related_link['Title']] = related_link['Url']
 
-    print('Checkpoint reached!')
+    # print('Checkpoint reached!') # For Troubleshooting
     summarized_content = create_summary(store_all_content)
     summarized_content = summarized_content.replace('\n', '<br>')
 
@@ -115,13 +115,13 @@ def generate_text_to_speech(text, lang):
         response = text_to_speech.synthesize(
             text,
             voice="en-US_OliviaV3Voice",
-            accept='audio/wav'
+            accept='audio/mp3'
         )
     else:
         response = text_to_speech.synthesize(
             text,
             voice="es-US_SofiaV3Voice",
-            accept='audio/wav'
+            accept='audio/mp3'
         )
     return response.get_result().content
 

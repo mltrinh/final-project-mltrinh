@@ -48,7 +48,7 @@ def results():
         special_topics = [16, 18, 20]
         user_interested_articles = {}
         if len(request.form) > 3 or len(request.form) == 0:
-            return render_template('results.html', user_articles={}, error=True)
+            return render_template('results.html', user_articles={}, error=True, lang=lang)
         else:
             for topic_name, topic_id in request.form.items():
                 if int(topic_id) in special_topics:
@@ -59,7 +59,8 @@ def results():
                     content_and_resources = functions.extract_content_and_resources(related_articles)
                 user_interested_articles[topic_name] = content_and_resources
                 session[topic_name] = content_and_resources['content']
-            return render_template('results.html', user_articles=user_interested_articles, error=False)
+            return render_template('results.html', user_articles=user_interested_articles, error=False,
+                                   lang=lang)
     elif request.method == 'GET':
         return 'Wrong HTTP method', 400
 
@@ -76,8 +77,8 @@ def text_to_speech(topic_name):
             break
         except requests.exceptions.ChunkedEncodingError:
             time.sleep(1)
-            # print('Failed')
-    return Response(audio, mimetype='audio/wav')
+            # print('Failed') # For troubleshooting
+    return Response(audio, mimetype='audio/mp3')
 
 
 if __name__ == '__main__':
