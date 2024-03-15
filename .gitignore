@@ -1,0 +1,3 @@
+# ignore flask_venv directory and keys
+flask_venv
+keys.py
