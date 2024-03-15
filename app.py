@@ -1,14 +1,18 @@
 # -*- coding: utf-8 -*-
 import requests.exceptions
-
 import functions
 import time
-from flask import Flask, render_template, request, url_for, session, Response
+from flask import Flask, render_template, request, session, url_for, Response
+from flask_session import Session
 from secrets import token_hex
 
 # Create an instance of Flask
 app = Flask(__name__)
-app.secret_key = token_hex(16)
+
+# Start Flask-Session
+SESSION_TYPE = 'filesystem'
+app.config.from_object(__name__)
+Session(app)
 
 
 # Create a view function for /
@@ -71,4 +75,6 @@ def text_to_speech(topic_name):
 
 
 if __name__ == '__main__':
+    sess = Session()
+    sess.init_app(app)
     app.run(debug=True)
