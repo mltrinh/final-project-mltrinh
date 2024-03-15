@@ -8,8 +8,6 @@ The website works for both english and spanish users. However, users may only se
 in. This is due to limitations with the openAI API key and flask session storage. If you are using a paid version of
 openAI API, it may be possible to increase the amount of articles users can select.
 
-If you want to see what the web app looks like online, refer to: http://mltrinh.pythonanywhere.com/
-
 NOTE: Be cautious of the import `ssl` and `ssl._create_default_https_context = ssl._create_unverified_context lines`
 in the code. There was a problem with certifi verification so this was added in response to the error.
 
