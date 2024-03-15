@@ -115,13 +115,13 @@ def generate_text_to_speech(text, lang):
         response = text_to_speech.synthesize(
             text,
             voice="en-US_OliviaV3Voice",
-            accept='audio/mp3'
+            accept='audio/wav'
         )
     else:
         response = text_to_speech.synthesize(
             text,
             voice="es-US_SofiaV3Voice",
-            accept='audio/mp3'
+            accept='audio/wav'
         )
     return response.get_result().content
 

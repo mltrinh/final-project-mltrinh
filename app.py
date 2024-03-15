@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import ibm_cloud_sdk_core
 import requests.exceptions
 import functions
 import time
@@ -68,6 +69,7 @@ def results():
 # Function that renders a secret url for text to speech audio. if there is a chunked encoding error, retry 5 times.
 @app.route('/text-to-speech/<topic_name>')
 def text_to_speech(topic_name):
+    # print('entered!') # for troubleshooting
     lang = session['lang']
     content = session[topic_name]
     content = content.replace('<br>', '')
@@ -75,10 +77,16 @@ def text_to_speech(topic_name):
         try:
             audio = functions.generate_text_to_speech(content, lang)
             break
-        except requests.exceptions.ChunkedEncodingError:
+        except requests.exceptions.ChunkedEncodingError as e:
             time.sleep(1)
-            # print('Failed') # For troubleshooting
-    return Response(audio, mimetype='audio/mp3')
+            # print(e)
+        except requests.exceptions.ReadTimeout as e:
+            time.sleep(1)
+            # print(e)
+        except ibm_cloud_sdk_core.api_exception.ApiException as e:
+            time.sleep(1)
+            # print(e)
+    return Response(audio, mimetype='audio/wav')
 
 
 if __name__ == '__main__':
