@@ -8,6 +8,9 @@ The website works for both english and spanish users. However, users may only se
 in. This is due to limitations with the openAI API key and flask session storage. Future work can be done to hopefully
 increase the topics users can select at a time.
 
+NOTE: Be cautious of the import `ssl` and `ssl._create_default_https_context = ssl._create_unverified_context lines`
+in the code. There was a problem with certifi verification so this was added in response to the error.
+
 # Necessary APIs and relevant Links
 
 1. [`MyHealthFinder API`](https://health.gov/our-work/national-health-initiatives/health-literacy/consumer-health-content/free-web-content/apis-developers)
