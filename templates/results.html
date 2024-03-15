@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if error %}
+<div class="alert alert-warning" role="alert">
+    <p>
+        Error: Too many or too little topics were selected.
+    </p>
+    <a href="{{ url_for('home') }}"> Return to Homepage </a>
+</div>
+{% else %}
+<br>
+<div class="row">
+    <div class="col-4">
+        <nav id="navigation_bar" class="navbar navbar-light bg-light flex-column">
+            <a class="navbar-brand" href="#">Navigation Bar</a>
+            <nav class="nav nav-pills flex-column">
+                {% for topic_name in user_articles %}
+                <a class="nav-link" href="#{{ topic_name|replace(' ', '-') }}">{{ topic_name }}</a>
+                <nav class="nav nav-pills flex-column">
+                    <a class="nav-link ml-3 my-1" href="#{{ topic_name|replace(' ', '-') }}-resources">{{ topic_name }}
+                        Resources</a>
+                </nav>
+                {% endfor %}
+            </nav>
+        </nav>
+        <div class="text-center">
+            <a href="{{ url_for('home') }}" class="btn btn-primary">Home!</a>
+        </div>
+    </div>
+
+    <div class="col-8">
+        <div data-spy="scroll" data-target="#navigation_bar" data-offset="0" class="scrollspy-example-2" tabindex="0"
+             style="height: 75vh; overflow:auto">
+            {% for topic_name, content_and_resources in user_articles.items() %}
+            <div>
+                <h4 id="{{ topic_name|replace(' ', '-') }}">{{ topic_name }}</h4>
+                <audio controls
+                       src="{{ url_for('text_to_speech', topic_name=topic_name) }}"></audio>
+                <p>{{ content_and_resources['content']|safe }}</p>
+            </div>
+            <div>
+                <h5 id="{{ topic_name|replace(' ', '-') }}-resources">{{ topic_name }} Resources</h5>
+                {% for link_title, link_url in content_and_resources['related-links'].items() %}
+                <a href="{{ link_url }}"><u>{{ link_title }}</u></a><br>
+                {% endfor %}
+            </div>
+            <br>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

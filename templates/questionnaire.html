@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if lang == 'en' %}
+<p class="lead">What healthcare topics would you like to learn more about? (3 maximum)</p>
+<form action="{{ url_for('results') }}" method="post">
+    <table class="table table-bordered">
+        <thead>
+        <tr class="text-center">
+            <th>Topic</th>
+            <th>Yes/No</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for topic, topic_id in topics.items() %}
+        <tr>
+            <td>{{ topic }}</td>
+            <td style="text-align: center;">
+                <input class="form-check-input" type="checkbox" name="{{ topic }}" value="{{ topic_id }}">
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{% elif lang == 'es' %}
+<p class="lead">¿Sobre qué temas de atención médica le gustaría obtener más información? (3 máximo)</p>
+<form action="{{ url_for('results') }}" method="post">
+    <table class="table table-bordered">
+        <thead>
+        <tr class="text-center">
+            <th>Temas</th>
+            <th>Sí/No</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for topic, topic_id in topics.items() %}
+        <tr>
+            <td>{{ topic }}</td>
+            <td style="text-align: center;">
+                <input class="form-check-input" type="checkbox" name="{{ topic }}" value="{{ topic_id }}">
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</form>
+{% else %}
+<div class="alert alert-warning" role="alert">
+    <p>
+        Error: please select a language.
+    </p>
+    <a href="{{ url_for('home') }}"> Return to Homepage </a>
+</div>
+{% endif %}
+
+{% endblock %}
