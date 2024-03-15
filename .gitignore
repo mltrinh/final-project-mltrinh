@@ -1,3 +1,4 @@
 # ignore flask_venv directory and keys
 flask_venv
+venv
 keys.py
