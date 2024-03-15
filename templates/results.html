@@ -6,26 +6,34 @@
     <p>
         Error: Too many or too little topics were selected.
     </p>
-    <a href="{{ url_for('home') }}"> Return to Homepage </a>
+    <p>
+        Error: Se seleccionaron demasiados o muy pocos temas.
+    </p>
+    <a href="{{ url_for('home') }}"> Homepage | Página inicial </a>
 </div>
 {% else %}
 <br>
 <div class="row">
     <div class="col-4">
         <nav id="navigation_bar" class="navbar navbar-light bg-light flex-column">
-            <a class="navbar-brand" href="#">Navigation Bar</a>
+            <a class="navbar-brand" href="#">Navigation | Navegación</a>
             <nav class="nav nav-pills flex-column">
                 {% for topic_name in user_articles %}
                 <a class="nav-link" href="#{{ topic_name|replace(' ', '-') }}">{{ topic_name }}</a>
                 <nav class="nav nav-pills flex-column">
+                    {% if lang == 'en' %}
                     <a class="nav-link ml-3 my-1" href="#{{ topic_name|replace(' ', '-') }}-resources">{{ topic_name }}
                         Resources</a>
+                    {% else %}
+                    <a class="nav-link ml-3 my-1" href="#{{ topic_name|replace(' ', '-') }}-resources">{{ topic_name }}
+                        Recursos</a>
+                    {% endif %}
                 </nav>
                 {% endfor %}
             </nav>
         </nav>
         <div class="text-center">
-            <a href="{{ url_for('home') }}" class="btn btn-primary">Home!</a>
+            <a href="{{ url_for('home') }}" class="btn btn-primary">Homepage | Página inicial</a>
         </div>
     </div>
 
@@ -40,7 +48,11 @@
                 <p>{{ content_and_resources['content']|safe }}</p>
             </div>
             <div>
+                {% if lang == 'en' %}
                 <h5 id="{{ topic_name|replace(' ', '-') }}-resources">{{ topic_name }} Resources</h5>
+                {% else %}
+                <h5 id="{{ topic_name|replace(' ', '-') }}-resources">{{ topic_name }} Recursos</h5>
+                {% endif %}
                 {% for link_title, link_url in content_and_resources['related-links'].items() %}
                 <a href="{{ link_url }}"><u>{{ link_title }}</u></a><br>
                 {% endfor %}
