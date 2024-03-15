@@ -6,7 +6,8 @@ they are interested in. It also includes an audio recording of the summary (whic
 
 The website works for both english and spanish users. However, users may only select 3 topics that they are interested
 in. This is due to limitations with the openAI API key and flask session storage. If you are using a paid version of
-openAI API, it may be possible to increase the amount of articles users can select.
+openAI API, it may be possible to increase the amount of articles users can select. Future work can be done
+troubleshooting the IBM text to speech API as it occasionally returns errors.
 
 NOTE: Be cautious of the import `ssl` and `ssl._create_default_https_context = ssl._create_unverified_context lines`
 in the code. There was a problem with certifi verification so this was added in response to the error.
