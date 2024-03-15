@@ -108,6 +108,7 @@ def create_summary(text):
     return summary
 
 
+# Given text and a language, return wav text to speech audio via IBM Text to Speech API.
 def generate_text_to_speech(text, lang):
     text_to_speech.set_service_url(text_to_speech_baseurl)
     if lang == 'en':
