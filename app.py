@@ -4,7 +4,6 @@ import functions
 import time
 from flask import Flask, render_template, request, session, url_for, Response
 from flask_session import Session
-from secrets import token_hex
 
 # Create an instance of Flask
 app = Flask(__name__)
@@ -15,15 +14,19 @@ app.config.from_object(__name__)
 Session(app)
 
 
-# Create a view function for /
+# function that renders homepage.html
 @app.route('/')
 def home():
     return render_template('homepage.html')
 
 
+# function that renders questionnaire.html
 @app.route('/questionnaire', methods=['GET', 'POST'])
 def questionnaire():
+    # Only include the following topics in the questionnaire (topic_id obtained from MyHealthFinder API). This helps
+    # limit the topic search so that it does not return back too many articles.
     included_topics_id = [16, 18, 19, 29, 20, 91, 92, 93, 94, 95, 96, 54, 29, 106, 314, 24, 26, 110]
+
     included_topics = {}
     if request.method == 'POST':
         lang = request.form["lang"]
@@ -37,6 +40,7 @@ def questionnaire():
         return 'Wrong HTTP method', 400
 
 
+# Function that renders results.html. If the user selected more than 3 topics or 0 topics, returns an error.
 @app.route('/results', methods=['GET', 'POST'])
 def results():
     if request.method == 'POST':
@@ -60,17 +64,19 @@ def results():
         return 'Wrong HTTP method', 400
 
 
+# Function that renders a secret url for text to speech audio. if there is a chunked encoding error, retry 5 times.
 @app.route('/text-to-speech/<topic_name>')
 def text_to_speech(topic_name):
     lang = session['lang']
     content = session[topic_name]
     content = content.replace('<br>', '')
-    for retry in range(3):
+    for retry in range(5):
         try:
             audio = functions.generate_text_to_speech(content, lang)
             break
         except requests.exceptions.ChunkedEncodingError:
             time.sleep(1)
+            # print('Failed')
     return Response(audio, mimetype='audio/wav')
 
 
